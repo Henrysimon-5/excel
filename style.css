@@ -71,7 +71,9 @@ body {
 }
 
 #sheet-name:hover {
-  text-decoration: underline dotted rgba(255,255,255,.6);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: rgba(255,255,255,.6);
 }
 
 /* ── Toolbar ────────────────────────────────────────────── */

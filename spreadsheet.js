@@ -235,8 +235,9 @@
       return cond ? evalFormula(parts[1]) : evalFormula(parts[2]);
     });
 
-    // Allow only safe characters before eval
-    if (/[^0-9+\-*/().%, ]/.test(expr)) return "#ERR";
+    // By this point all cell refs and functions have been replaced with numbers.
+    // Only allow digits, basic arithmetic operators, parentheses, dot (decimal), and whitespace.
+    if (/[^0-9+\-*/.()\s]/.test(expr)) return "#ERR";
     // eslint-disable-next-line no-new-func
     const result = Function('"use strict"; return (' + expr + ")")();
     return isNaN(result) ? result : result;
@@ -443,9 +444,9 @@
       select(selRow, selCol + (e.shiftKey ? -1 : 1));
     } else if (e.key === "Escape") {
       cancelEdit();
-    } else if (e.key === "ArrowUp" && !editing) {
+    } else if (e.key === "ArrowUp") {
       commitEdit(); select(selRow - 1, selCol);
-    } else if (e.key === "ArrowDown" && !editing) {
+    } else if (e.key === "ArrowDown") {
       commitEdit(); select(selRow + 1, selCol);
     }
   }
@@ -669,7 +670,7 @@
   }
 
   function deleteRow(r) {
-    if (ROWS <= 1) return;
+    if (cells.length <= 1) return;
     saveHistory();
     cells.splice(r, 1);
     cells.push(Array.from({ length: COLS }, () => ({ raw: "", value: "", style: {} })));
