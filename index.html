@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Excel Sheet</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── Title bar ────────────────────────────────────── -->
+  <div id="title-bar">
+    <span class="title-icon">📊</span>
+    <input id="sheet-name" type="text" value="My Spreadsheet" spellcheck="false" />
+  </div>
+
+  <!-- ── Toolbar ──────────────────────────────────────── -->
+  <div id="toolbar">
+
+    <!-- Undo / Redo -->
+    <button class="tb-btn" id="btn-undo" title="Undo (Ctrl+Z)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 14 4 9l5-5"/><path d="M4 9h10a5 5 0 0 1 0 10h-1"/>
+      </svg>
+    </button>
+    <button class="tb-btn" id="btn-redo" title="Redo (Ctrl+Y)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M15 14l5-5-5-5"/><path d="M20 9H10a5 5 0 0 0 0 10h1"/>
+      </svg>
+    </button>
+
+    <div class="toolbar-separator"></div>
+
+    <!-- Font size -->
+    <select id="font-size-select" title="Font size">
+      <option value="10">10</option>
+      <option value="11">11</option>
+      <option value="12">12</option>
+      <option value="13" selected>13</option>
+      <option value="14">14</option>
+      <option value="16">16</option>
+      <option value="18">18</option>
+      <option value="20">20</option>
+      <option value="24">24</option>
+      <option value="28">28</option>
+      <option value="36">36</option>
+    </select>
+
+    <div class="toolbar-separator"></div>
+
+    <!-- Bold / Italic / Underline / Strikethrough -->
+    <button class="tb-btn" id="btn-bold"      title="Bold (Ctrl+B)"><b>B</b></button>
+    <button class="tb-btn" id="btn-italic"    title="Italic (Ctrl+I)"><i>I</i></button>
+    <button class="tb-btn" id="btn-underline" title="Underline (Ctrl+U)" style="text-decoration:underline">U</button>
+    <button class="tb-btn" id="btn-strike"    title="Strikethrough" style="text-decoration:line-through">S</button>
+
+    <div class="toolbar-separator"></div>
+
+    <!-- Text colour -->
+    <div class="color-btn-wrap" title="Text colour">
+      <button class="tb-btn" style="font-weight:bold">A</button>
+      <div class="color-indicator" id="color-indicator" style="background:#000"></div>
+      <input type="color" id="color-picker" value="#000000" title="Text colour" />
+    </div>
+
+    <!-- Fill colour -->
+    <div class="color-btn-wrap" title="Fill colour">
+      <button class="tb-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M16.56 8.94L7.62 0 6.21 1.41l2.38 2.38-5.15 5.15a1.49 1.49 0 0 0 0 2.12l5.5 5.5c.29.29.68.44 1.06.44s.77-.15 1.06-.44l5.5-5.5c.59-.58.59-1.53 0-2.12zM5.21 10L10 5.21 14.79 10H5.21z"/>
+          <path d="M19 11.5s-2 2.17-2 3.5c0 1.1.9 2 2 2s2-.9 2-2c0-1.33-2-3.5-2-3.5z"/>
+          <path fill-rule="evenodd" d="M0 20h24v4H0z" opacity=".3"/>
+        </svg>
+      </button>
+      <div class="color-indicator" id="fill-indicator" style="background:transparent;border:1px solid #ccc"></div>
+      <input type="color" id="fill-picker" value="#ffffff" title="Fill colour" />
+    </div>
+
+    <div class="toolbar-separator"></div>
+
+    <!-- Alignment -->
+    <div id="align-group">
+      <button class="tb-btn active" id="btn-align-left" title="Align left">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3 3h18v2H3zm0 4h12v2H3zm0 4h18v2H3zm0 4h12v2H3zm0 4h18v2H3z"/>
+        </svg>
+      </button>
+      <button class="tb-btn" id="btn-align-center" title="Align center">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3 3h18v2H3zm3 4h12v2H6zm-3 4h18v2H3zm3 4h12v2H6zm-3 4h18v2H3z"/>
+        </svg>
+      </button>
+      <button class="tb-btn" id="btn-align-right" title="Align right">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M3 3h18v2H3zm6 4h12v2H9zm-6 4h18v2H3zm6 4h12v2H9zm-6 4h18v2H3z"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="toolbar-separator"></div>
+
+    <!-- Clear -->
+    <button class="tb-btn" id="btn-clear" title="Clear cell (Del)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>
+      </svg>
+    </button>
+
+    <div class="toolbar-separator"></div>
+
+    <!-- Export CSV -->
+    <button class="tb-btn" id="btn-export" title="Export as CSV" style="gap:4px;padding:3px 10px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      CSV
+    </button>
+
+  </div>
+
+  <!-- ── Formula bar ───────────────────────────────────── -->
+  <div id="formula-bar">
+    <div id="cell-address">A1</div>
+    <input id="formula-input" type="text" placeholder="Enter value or formula (e.g. =SUM(A1:A10))" spellcheck="false" />
+  </div>
+
+  <!-- ── Grid ─────────────────────────────────────────── -->
+  <div id="grid-container">
+    <div id="grid-wrapper">
+      <table id="spreadsheet"></table>
+    </div>
+  </div>
+
+  <!-- ── Status bar ───────────────────────────────────── -->
+  <div id="status-bar">
+    <span id="status-mode">READY</span>
+    <span id="status-sum"></span>
+    <span id="status-avg"></span>
+    <span id="status-count"></span>
+  </div>
+
+  <!-- ── Context menu ─────────────────────────────────── -->
+  <div id="context-menu">
+    <div class="ctx-item" data-action="copy">📋 Copy</div>
+    <div class="ctx-item" data-action="cut">✂️ Cut</div>
+    <div class="ctx-item" data-action="paste">📌 Paste</div>
+    <div class="ctx-separator"></div>
+    <div class="ctx-item" data-action="clear">🗑️ Clear cell</div>
+    <div class="ctx-separator"></div>
+    <div class="ctx-item" data-action="insert-row">➕ Insert row above</div>
+    <div class="ctx-item" data-action="delete-row">➖ Delete row</div>
+  </div>
+
+  <!-- ── Toast container ──────────────────────────────── -->
+  <div id="toast-container"></div>
+
+  <script src="spreadsheet.js"></script>
+</body>
+</html>

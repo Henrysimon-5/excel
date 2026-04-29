@@ -1,0 +1,458 @@
+/* =========================================================
+   Excel-like Spreadsheet – styles
+   ========================================================= */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --toolbar-bg: #217346;
+  --toolbar-btn-hover: #185c38;
+  --header-bg: #f3f3f3;
+  --header-border: #d0d0d0;
+  --cell-border: #d0d0d0;
+  --cell-selected-bg: #e8f0fe;
+  --cell-selected-border: #1a73e8;
+  --formula-bar-bg: #fff;
+  --font-family: 'Segoe UI', Arial, sans-serif;
+  --font-size: 13px;
+  --row-height: 24px;
+  --col-width: 100px;
+  --row-header-width: 50px;
+  --toolbar-height: 44px;
+  --formula-bar-height: 32px;
+  --statusbar-height: 26px;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+  background: #f8f8f8;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: #222;
+}
+
+/* ── Title bar ─────────────────────────────────────────── */
+#title-bar {
+  background: var(--toolbar-bg);
+  color: #fff;
+  padding: 0 14px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+#title-bar .title-icon {
+  font-size: 20px;
+}
+
+#sheet-name {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--font-family);
+  outline: none;
+  min-width: 80px;
+  max-width: 240px;
+  cursor: text;
+}
+
+#sheet-name:hover {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-color: rgba(255,255,255,.6);
+}
+
+/* ── Toolbar ────────────────────────────────────────────── */
+#toolbar {
+  background: #fff;
+  border-bottom: 1px solid var(--header-border);
+  padding: 4px 8px;
+  height: var(--toolbar-height);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.toolbar-separator {
+  width: 1px;
+  height: 22px;
+  background: #d0d0d0;
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+.tb-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 3px 7px;
+  height: 30px;
+  min-width: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  transition: background .12s, border-color .12s;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.tb-btn:hover {
+  background: #f0f0f0;
+  border-color: #ccc;
+}
+
+.tb-btn.active {
+  background: #d0e4ff;
+  border-color: #1a73e8;
+  color: #1a73e8;
+}
+
+.tb-btn svg {
+  pointer-events: none;
+}
+
+/* Font-size selector */
+#font-size-select {
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 13px;
+  padding: 0 4px;
+  background: #fff;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Color pickers */
+.color-btn-wrap {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  flex-shrink: 0;
+}
+
+.color-btn-wrap .tb-btn {
+  font-weight: bold;
+}
+
+.color-indicator {
+  height: 3px;
+  width: 18px;
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.color-btn-wrap input[type="color"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+}
+
+/* Align buttons */
+#align-group {
+  display: flex;
+  gap: 2px;
+}
+
+/* Border button */
+/* ── Formula bar ────────────────────────────────────────── */
+#formula-bar {
+  background: var(--formula-bar-bg);
+  border-bottom: 1px solid var(--header-border);
+  height: var(--formula-bar-height);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+#cell-address {
+  width: 70px;
+  min-width: 70px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  border-right: 1px solid var(--header-border);
+  padding: 0 8px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+  user-select: none;
+}
+
+#formula-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 0 10px;
+  font-size: 13px;
+  font-family: var(--font-family);
+  height: 100%;
+  background: transparent;
+  color: #333;
+}
+
+#formula-input:focus {
+  background: #fffde7;
+}
+
+/* ── Grid area ─────────────────────────────────────────── */
+#grid-container {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  background: #fff;
+}
+
+#grid-wrapper {
+  display: inline-block;
+  min-width: 100%;
+}
+
+/* ── Table ─────────────────────────────────────────────── */
+#spreadsheet {
+  border-collapse: collapse;
+  table-layout: fixed;
+  background: #fff;
+  position: relative;
+}
+
+/* Corner cell */
+#spreadsheet .corner {
+  width: var(--row-header-width);
+  min-width: var(--row-header-width);
+  background: var(--header-bg);
+  border: 1px solid var(--header-border);
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  cursor: default;
+}
+
+/* Column headers */
+#spreadsheet th.col-header {
+  background: var(--header-bg);
+  border: 1px solid var(--header-border);
+  text-align: center;
+  font-weight: 600;
+  font-size: 12px;
+  color: #555;
+  cursor: default;
+  user-select: none;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  height: var(--row-height);
+  min-width: var(--col-width);
+  width: var(--col-width);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#spreadsheet th.col-header.selected-col {
+  background: #c8d8f0;
+  color: #1a73e8;
+}
+
+/* Row headers */
+#spreadsheet td.row-header {
+  background: var(--header-bg);
+  border: 1px solid var(--header-border);
+  text-align: center;
+  font-weight: 600;
+  font-size: 12px;
+  color: #555;
+  cursor: default;
+  user-select: none;
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  width: var(--row-header-width);
+  min-width: var(--row-header-width);
+  white-space: nowrap;
+}
+
+#spreadsheet td.row-header.selected-row {
+  background: #c8d8f0;
+  color: #1a73e8;
+}
+
+/* Data cells */
+#spreadsheet td.cell {
+  border: 1px solid var(--cell-border);
+  padding: 0 4px;
+  height: var(--row-height);
+  min-width: var(--col-width);
+  width: var(--col-width);
+  max-width: var(--col-width);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: cell;
+  position: relative;
+  vertical-align: middle;
+  font-size: 13px;
+  color: #222;
+  outline: none;
+  transition: background .08s;
+}
+
+#spreadsheet td.cell.selected {
+  background: var(--cell-selected-bg);
+  outline: 2px solid var(--cell-selected-border);
+  outline-offset: -1px;
+  z-index: 1;
+}
+
+#spreadsheet td.cell.in-range {
+  background: #e0ecff;
+}
+
+#spreadsheet td.cell.editing {
+  padding: 0;
+  overflow: visible;
+  z-index: 5;
+}
+
+/* Inline editor */
+.cell-editor {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  min-width: calc(100% + 2px);
+  min-height: calc(100% + 2px);
+  border: 2px solid var(--cell-selected-border);
+  border-radius: 0;
+  padding: 0 4px;
+  font-size: 13px;
+  font-family: var(--font-family);
+  background: #fff;
+  outline: none;
+  z-index: 10;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(26,115,232,.18);
+}
+
+/* ── Status bar ─────────────────────────────────────────── */
+#status-bar {
+  background: var(--toolbar-bg);
+  color: #fff;
+  height: var(--statusbar-height);
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 20px;
+  font-size: 12px;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+#status-bar span {
+  opacity: .9;
+}
+
+#status-mode { font-weight: 600; }
+
+/* ── Context menu ───────────────────────────────────────── */
+#context-menu {
+  position: fixed;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.18);
+  z-index: 1000;
+  min-width: 160px;
+  padding: 4px 0;
+  display: none;
+}
+
+#context-menu.visible { display: block; }
+
+.ctx-item {
+  padding: 7px 20px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ctx-item:hover { background: #f0f4ff; }
+
+.ctx-separator {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 4px 0;
+}
+
+/* ── Toast notifications ────────────────────────────────── */
+#toast-container {
+  position: fixed;
+  bottom: 40px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 2000;
+  pointer-events: none;
+}
+
+.toast {
+  background: #323232;
+  color: #fff;
+  padding: 9px 18px;
+  border-radius: 5px;
+  font-size: 13px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: toast-in .25s forwards, toast-out .3s 2.5s forwards;
+}
+
+@keyframes toast-in  { to { opacity: 1; transform: translateY(0); } }
+@keyframes toast-out { to { opacity: 0; transform: translateY(10px); } }
+
+/* ── Scrollbar styling ──────────────────────────────────── */
+#grid-container::-webkit-scrollbar { width: 10px; height: 10px; }
+#grid-container::-webkit-scrollbar-track { background: #f1f1f1; }
+#grid-container::-webkit-scrollbar-thumb { background: #bbb; border-radius: 5px; }
+#grid-container::-webkit-scrollbar-thumb:hover { background: #999; }
+#grid-container::-webkit-scrollbar-corner { background: #f1f1f1; }
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media (max-width: 600px) {
+  :root {
+    --col-width: 80px;
+    --row-header-width: 36px;
+  }
+  #toolbar { gap: 2px; }
+}
